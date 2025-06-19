@@ -25,13 +25,13 @@ export type CartItemsInfoInput = z.infer<typeof CartItemsInfoInputSchema>;
 const RecommendedProductSchema = z.object({
   name: z.string().describe('The name of the recommended product.'),
   description: z.string().describe('A brief description of the recommended product.'),
-  imageUrl: z.string().url().describe("A placeholder image URL for the recommended product (e.g., 'https://placehold.co/300x200.png')."),
+  imageUrl: z.string().describe("A placeholder image URL for the recommended product (e.g., 'https://placehold.co/300x200.png'). It can be an empty string if no suitable image is found."),
   price: z.number().describe('A plausible price for the recommended product.'),
   dataAiHint: z.string().optional().describe('A 1-2 word hint for the image (e.g., "red_dress", "kitchen_gadget").'),
 });
 
 const RecommendedProductsOutputSchema = z.object({
-  recommendations: z.array(RecommendedProductSchema).describe('A list of 2-4 recommended products.'),
+  recommendations: z.array(RecommendedProductSchema).min(2).max(3).describe('A list of 2-3 recommended products.'),
 });
 export type RecommendedProductsOutput = z.infer<typeof RecommendedProductsOutputSchema>;
 
@@ -44,7 +44,7 @@ const prompt = ai.definePrompt({
   input: {schema: CartItemsInfoInputSchema},
   output: {schema: RecommendedProductsOutputSchema},
   prompt: `You are a helpful shopping assistant for an e-commerce store called ShopWave.
-Based on the following items currently in the user's shopping cart, please recommend 2-3 other products from our catalog that would complement them or that the user might also like.
+Based on the following items currently in the user's shopping cart, please recommend other products from our catalog that would complement them or that the user might also like.
 
 Current cart items:
 {{#each items}}
@@ -57,7 +57,7 @@ For each recommended product, provide:
 1.  A concise 'name'.
 2.  A short 'description' (1-2 sentences).
 3.  An 'imageUrl' using a placeholder like 'https://placehold.co/300x200.png'.
-4.  A plausible 'price' (e.g., 29.99).
+4.  A plausible 'price' (e.g., 29.99, ensure this is a number).
 5.  A 'dataAiHint' (1-2 keywords for the image, e.g., "summer_accessory", "tech_gadget").
 
 Ensure your output strictly adheres to the JSON schema provided for 'RecommendedProductsOutputSchema'.
@@ -73,15 +73,11 @@ const recommendProductsFlow = ai.defineFlow(
     outputSchema: RecommendedProductsOutputSchema,
   },
   async (input: CartItemsInfoInput) => {
-    // Ensure we don't try to get recommendations for an empty cart,
-    // though the caller should ideally prevent this.
     if (input.items.length === 0) {
       return { recommendations: [] };
     }
     const {output} = await prompt(input);
-    // If the AI fails to provide output or it doesn't match the schema,
-    // Genkit might throw or output could be null/undefined.
-    // Return empty recommendations to prevent errors downstream.
     return output || { recommendations: [] };
   }
 );
+
