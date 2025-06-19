@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className="font-body antialiased min-h-screen flex flex-col">
         <CartProvider>
           <Header />
-          <main className="flex-grow container py-8">
+          <main className="flex-grow container mx-auto py-8">
             {children}
           </main>
           <Footer />

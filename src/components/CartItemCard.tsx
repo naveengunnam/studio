@@ -35,9 +35,9 @@ export default function CartItemCard({ item }: CartItemCardProps) {
         <Link href={`/products/${item.product.id}`}>
           <h3 className="text-lg font-semibold font-headline hover:text-primary transition-colors">{item.product.name}</h3>
         </Link>
-        <p className="text-sm text-muted-foreground">${item.product.price.toFixed(2)} each</p>
+        <p className="text-sm text-muted-foreground">Rs. {item.product.price.toFixed(2)} each</p>
         <p className="text-md font-semibold text-primary mt-1">
-          Subtotal: ${(item.product.price * item.quantity).toFixed(2)}
+          Subtotal: Rs. {(item.product.price * item.quantity).toFixed(2)}
         </p>
       </div>
       <div className="flex items-center gap-2">

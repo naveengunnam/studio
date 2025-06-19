@@ -30,7 +30,7 @@ export default function SimilarItemCard({ item }: SimilarItemCardProps) {
         <CardDescription className="text-sm text-muted-foreground h-10 overflow-hidden text-ellipsis">
           {item.description}
         </CardDescription>
-        <p className="text-lg font-semibold text-primary mt-2">${item.price.toFixed(2)}</p>
+        <p className="text-lg font-semibold text-primary mt-2">Rs. {item.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 border-t">
         <Button variant="outline" className="w-full">

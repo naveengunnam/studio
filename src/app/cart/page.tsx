@@ -87,7 +87,7 @@ export default function CartPage() {
               </div>
               <div className="flex justify-between items-center text-xl font-semibold">
                 <p>Grand Total:</p>
-                <p className="text-primary">${cartTotal.toFixed(2)}</p>
+                <p className="text-primary">Rs. {cartTotal.toFixed(2)}</p>
               </div>
             </CardContent>
             <CardFooter className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t">

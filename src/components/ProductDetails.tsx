@@ -51,7 +51,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               {product.category}
             </Badge>
           )}
-          <p className="text-2xl font-semibold text-foreground mb-4">${product.price.toFixed(2)}</p>
+          <p className="text-2xl font-semibold text-foreground mb-4">Rs. {product.price.toFixed(2)}</p>
           <p className="text-muted-foreground leading-relaxed mb-6">{product.longDescription}</p>
 
           {product.colors && product.colors.length > 0 && (
